@@ -1,0 +1,13 @@
+.login-section{
+    margin: 100px;
+}
+
+.register-success-text{
+    text-align: center;
+    margin-top: 5px;   
+    color: aliceblue;
+}
+
+input.ng-invalid.ng-touched {
+    border: red 1px solid;
+}
