@@ -48,3 +48,16 @@
       border-radius: 4px;
       padding:5px;
   }
+
+  .btn-add-comment{
+    margin-top: 5px;
+    margin-left: 10px;
+    border: none;
+    padding: 2px 15px 2px 15px;
+    border-radius: 20px
+}
+
+.btn-add-comment:hover{
+  opacity: 0.65;
+  cursor: pointer;
+}

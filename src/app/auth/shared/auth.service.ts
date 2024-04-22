@@ -17,66 +17,66 @@ export class AuthService {
     refreshToken: this.getRefreshToken(),
     username: this.getUserName()
   }
-    
+
   constructor(private httpClient: HttpClient,
     private localStorage: LocalStorageService) { }
 
-signup(signupRequestPayload: SignupRequestPayload): Observable<any>{
-  return this.httpClient.post("http://localhost:8081/api/auth/signup", signupRequestPayload, {responseType: 'text'});
-}
+  signup(signupRequestPayload: SignupRequestPayload): Observable<any> {
+    return this.httpClient.post("http://localhost:8081/api/auth/signup", signupRequestPayload, { responseType: 'text' });
+  }
 
-login(loginRequestPayload: LoginRequestPayload): Observable<boolean>{
-  return this.httpClient.post<LoginResponse>("http://localhost:8081/api/auth/login",
-    loginRequestPayload).pipe(map(data => {
-      this.localStorage.store('authenticationToken', data.authenticationToken);
-      this.localStorage.store('refreshToken', data.refreshToken);
-      this.localStorage.store('expiresAt', data.expiresAt);
-      this.localStorage.store('username', data.username);
-      
-      this.loggedIn.emit(true);
-      this.username.emit(data.username);
-      return true;
-    }));
-}
+  login(loginRequestPayload: LoginRequestPayload): Observable<boolean> {
+    return this.httpClient.post<LoginResponse>("http://localhost:8081/api/auth/login",
+      loginRequestPayload).pipe(map(data => {
+        this.localStorage.store('authenticationToken', data.authenticationToken);
+        this.localStorage.store('refreshToken', data.refreshToken);
+        this.localStorage.store('expiresAt', data.expiresAt);
+        this.localStorage.store('username', data.username);
 
-getJwtToken() {
-  return this.localStorage.retrieve('authenticationToken');
-}
+        this.loggedIn.emit(true);
+        this.username.emit(data.username);
+        return true;
+      }));
+  }
 
-refreshToken() {
-  return this.httpClient.post<LoginResponse>('http://localhost:8081/api/auth/refresh/token',
-    this.refreshTokenPayload)
-    .pipe(tap(response => {
-      this.localStorage.store('authenticationToken', response.authenticationToken);
-      this.localStorage.store('expiresAt', response.expiresAt);
-    }));
-}
+  getJwtToken() {
+    return this.localStorage.retrieve('authenticationToken');
+  }
 
-getRefreshToken() {
-  return this.localStorage.retrieve('refreshToken');
-}
+  refreshToken() {
+    return this.httpClient.post<LoginResponse>('http://localhost:8081/api/auth/refresh/token',
+      this.refreshTokenPayload)
+      .pipe(tap(response => {
+        this.localStorage.store('authenticationToken', response.authenticationToken);
+        this.localStorage.store('expiresAt', response.expiresAt);
+      }));
+  }
 
-getUserName() {
-  return this.localStorage.retrieve('username');
-}
+  getRefreshToken() {
+    return this.localStorage.retrieve('refreshToken');
+  }
 
-getExpirationTime() {
-  return this.localStorage.retrieve('expiresAt');
-}
+  getUserName() {
+    return this.localStorage.retrieve('username');
+  }
 
-isLoggedIn(): boolean {
-  return this.getJwtToken() != null;
-}
+  getExpirationTime() {
+    return this.localStorage.retrieve('expiresAt');
+  }
 
-logout(){
-  this.httpClient.post('http://localhost:8081/api/auth/logout', this.refreshTokenPayload, {responseType: 'text'})
-  /* .subscribe(data=>{
-  }, error=>{
-      throwError(error)
-  }); */
-  this.localStorage.clear('authenticationToken');
-  this.localStorage.clear('username');
-  this.localStorage.clear('refreshToken');
-  this.localStorage.clear('expiresAt');
-}
+  isLoggedIn(): boolean {
+    return this.getJwtToken() != null;
+  }
+
+  logout() {
+    this.httpClient.post('http://localhost:8081/api/auth/logout', this.refreshTokenPayload, { responseType: 'text' })
+      .subscribe(data => {
+      }, error => {
+        throwError(error)
+      });
+    this.localStorage.clear('authenticationToken');
+    this.localStorage.clear('username');
+    this.localStorage.clear('refreshToken');
+    this.localStorage.clear('expiresAt');
+  }
 }

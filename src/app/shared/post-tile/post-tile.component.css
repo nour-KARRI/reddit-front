@@ -31,6 +31,10 @@
     cursor: pointer;
 }
 
+.read-post:hover{
+    opacity: 0.65;
+    cursor: pointer;
+}
 .post-title{
     font-size: 28px;
     font-weight: bold;
