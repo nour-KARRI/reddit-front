@@ -26,6 +26,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserProfilComponent } from './auth/user-profil/user-profil.component';
 import { VoteComponent } from './shared/vote/vote.component';
 import { TokenInterceptor } from './token-interceptor';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { TokenInterceptor } from './token-interceptor';
     ListSubredditsComponent,
     ViewPostComponent,
     UserProfilComponent,
-    VoteComponent
+    VoteComponent,
+    DateAgoPipe
   ],
   imports: [
     BrowserModule,

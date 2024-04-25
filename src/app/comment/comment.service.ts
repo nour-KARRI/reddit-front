@@ -20,8 +20,6 @@ export class CommentService {
   }
 
   postComment(commentPayload: CommentPayload): Observable<any> {
-    const header = new HttpHeaders().set('Authorization', this.localStorage.retrieve("authenticationToken"));
-    const headers = { headers: header };
-    return this.http.post<any>('http://localhost:8081/api/comments', commentPayload, headers);
+    return this.http.post<any>('http://localhost:8081/api/comments', commentPayload);
   }
 }

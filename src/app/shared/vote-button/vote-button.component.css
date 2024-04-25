@@ -23,3 +23,9 @@
 .votecount{
     font-weight: bold;    
 }
+
+.background-style{
+    background-color: #f1f1f1;
+    border-radius: 20px;
+    margin-right: 10px;
+}

@@ -5,8 +5,15 @@
           <div class="form-group">
             <div class="create-subreddit-heading">Create Subreddit</div>
             <hr />
-            <input type="text" [formControlName]="'title'" class="form-control" style="margin-top: 5px"
-              placeholder="Title">
+            <div>
+              <div class="input-container">
+                <input type="text" [formControlName]="'title'" class="form-control" style="margin-top: 5px">
+              </div>
+            </div>
+            
+              <span *ngIf="!createSubredditForm.get('title')!.valid && createSubredditForm.get('title')!.touched">
+                <span class="subreddit-title">A subreddit title is required</span>
+              </span>
             <textarea type="text" [formControlName]="'description'" style="width: 100%; margin-top: 5px"
               placeholder="Description"></textarea>
             <div>

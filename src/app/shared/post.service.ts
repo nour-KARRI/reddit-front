@@ -11,7 +11,7 @@ import { LoginResponse } from '../auth/login/login.reponse.payload';
 })
 export class PostService {
   
-  constructor(private http: HttpClient, private localStorage: LocalStorageService) { }
+  constructor(private http: HttpClient) { }
 
   getAllPostsByUser(name: string):Observable<any> {
       return this.http.get('http://localhost:8081/api/post/by-user/'+name);

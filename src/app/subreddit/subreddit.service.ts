@@ -17,8 +17,6 @@ getAllSubreddits(): Observable<Array<SubredditModel>>{
 }
 
 createSubreddit(subredditModel: SubredditModel): Observable<any>{
-  /* const header = new HttpHeaders().set('Authorization', this.localStorage.retrieve("authenticationToken"));
-    const headers = { headers: header }; */
   return this.http.post<LoginResponse>("http://localhost:8081/api/subreddit", subredditModel)
 }
 }

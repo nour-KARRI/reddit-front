@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../../shared/post.service';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { PostModel } from '../../shared/post-model';
 import { throwError } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommentPayload } from '../../comment/comment-payload';
 import { CommentService } from '../../comment/comment.service';
+import { AuthService } from '../../auth/shared/auth.service';
 
 @Component({
   selector: 'app-view-post',
@@ -19,9 +20,11 @@ export class ViewPostComponent implements OnInit{
   commentForm: FormGroup;
   commentPayload: CommentPayload;
   comments: CommentPayload[]
+  some:false
 
   constructor(private postService: PostService, private activateRoute: ActivatedRoute,
-    private commentService: CommentService) {
+    private commentService: CommentService, private authService: AuthService,
+    private router: Router) {
       this.postId = this.activateRoute.snapshot.params.id;
 
     this.commentForm = new FormGroup({
@@ -31,13 +34,23 @@ export class ViewPostComponent implements OnInit{
     this.commentPayload ={
       text: '',
       postId: this.postId,
+      username: '',
+      createDate: ''
     };
 
-    this.postService.getPost(this.postId).subscribe(data => {
-      this.post = data;
-    }, error => {
-      throwError(error)
-    })
+    this.post= {
+      id: 0,
+      postName: '',
+      url: '',
+      description: '',
+      voteCount: 0,
+      username: '',
+      subredditName: '',
+      commentCount: 0,
+      duration: '',
+      upVote: false,
+      downVote: false,
+  }
   }
 
   ngOnInit(){
@@ -46,13 +59,18 @@ export class ViewPostComponent implements OnInit{
   }
 
   postComment() {
-    this.commentPayload.text = this.commentForm.get('text')!.value;
-    this.commentService.postComment(this.commentPayload).subscribe(data => {
+    if(this.authService.isLoggedIn()){
+      this.commentPayload.text = this.commentForm.get('text')!.value;
+    this.commentService.postComment(this.commentPayload).subscribe(() => {
       this.commentForm.get('text')!.setValue('');
       this.getCommentsForPost();
+      this.discardComment();
     }, error => {
       throwError(error);
     })
+    }else{
+      this.router.navigateByUrl('/login');
+    }
   }
 
   getCommentsForPost() {
@@ -69,5 +87,9 @@ export class ViewPostComponent implements OnInit{
     }, error=> {
       throwError(error)
     })
+  }
+
+  discardComment(){
+    this.commentForm.reset();
   }
 }

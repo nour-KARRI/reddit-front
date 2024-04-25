@@ -16,10 +16,6 @@
     color: black;
   }
   
-  .username{
-      color: gray;
-  }
-  
   .post-text{
       margin-top: 10px;
   }
@@ -54,10 +50,33 @@
     margin-left: 10px;
     border: none;
     padding: 2px 15px 2px 15px;
-    border-radius: 20px
+    border-radius: 20px;
+    background-color: #eaeaef;
 }
 
 .btn-add-comment:hover{
   opacity: 0.65;
   cursor: pointer;
+}
+
+.btn-cancel-comment{
+  margin-top: 5px;
+    margin-left: 10px;
+    border: none;
+    padding: 2px 15px 2px 15px;
+    border-radius: 20px;
+    background-color: #eaedef;
+}
+
+.btn-cancel-comment:hover{
+  opacity: 0.65;
+  cursor: pointer;
+}
+
+.read-post{
+  margin-left: 10px;
+  padding: 0;
+  border: none;
+  padding: 7px;
+  border-radius: 20px
 }

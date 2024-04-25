@@ -4,6 +4,7 @@ import { SubredditModel } from '../subreddit-response';
 import { SubredditService } from '../subreddit.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-create-subreddit',
@@ -14,6 +15,7 @@ export class CreateSubredditComponent implements OnInit{
 
   createSubredditModel: SubredditModel
   createSubredditForm: FormGroup;
+  newTitle: string;
 
   constructor(private subredditService: SubredditService, private router: Router,
     private toastr: ToastrService
@@ -31,16 +33,18 @@ export class CreateSubredditComponent implements OnInit{
   ngOnInit(){}
 
   createSubreddit(){
-    this.createSubredditModel.name = this.createSubredditForm.get('title')?.value;
+    this.newTitle="r/";
+    this.createSubredditModel.name = this.newTitle.concat(this.createSubredditForm.get('title')?.value);
     this.createSubredditModel.description = this.createSubredditForm.get('description')?.value
 
     this.subredditService.createSubreddit(this.createSubredditModel)
     .subscribe(()=>{
       this.router.navigate([''])
-    }, ()=>{
-      console.log('Error occurred');
+    }, error=>{
+      throwError(error)
     })
   }
+
   discard(){
     this.router.navigateByUrl('/')
   }

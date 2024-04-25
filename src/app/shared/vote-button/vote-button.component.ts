@@ -27,7 +27,7 @@ export class VoteButtonComponent implements OnInit{
 
   constructor(private voteService: VoteService, private authService: AuthService,
     private postService: PostService, private toastr: ToastrService,
-  private router: Router, private authGuard: AuthGuard) {
+  private router: Router) {
 
     this.votePayload = {
       voteType: VoteType.UPVOTE,
@@ -36,7 +36,7 @@ export class VoteButtonComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.updateVoteDetails();
+    //this.updateVoteDetails();
   }
 
   upvotePost() {
@@ -44,8 +44,9 @@ export class VoteButtonComponent implements OnInit{
       this.votePayload.voteType = VoteType.UPVOTE;
       this.vote();
       this.downvoteColor = '';
+    } else{
+      this.router.navigateByUrl('/login');
     }
-    this.router.navigateByUrl('/login');
   }
 
   downvotePost() {
@@ -53,11 +54,13 @@ export class VoteButtonComponent implements OnInit{
       this.votePayload.voteType = VoteType.DOWNVOTE;
       this.vote();
       this.upvoteColor = '';
+    }else{
+      this.router.navigateByUrl('/login');
     }
-    this.router.navigateByUrl('/login');
   }
 
   private vote() {
+    console.log("this.post.id: ", this.post.id )
     this.votePayload.postId = this.post.id;
     this.voteService.vote(this.votePayload).subscribe(() => {
       this.updateVoteDetails();

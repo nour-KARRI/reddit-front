@@ -10,7 +10,7 @@
             <span>
               <span class="subreddit-text"><a class="post-url" href="">{{post.subredditName}}</a></span>
               <span> . Posted
-                <span> {{post.duration}} </span>
+                <span> {{post.duration | dateAgo}} </span>
                 by
                 <a *ngIf="post.username === null" class="username" href="">Anonymous</a>
                 <a *ngIf="post.username != null" class="username" href="">{{post.username}}</a>
@@ -22,22 +22,31 @@
               <p class="post-text" [innerHtml]="post.description"></p>
             </div>
             <div class="post-comment">
-              <form [formGroup]="commentForm" (ngSubmit)="postComment()">
+              <form [formGroup]="commentForm">
                 <div class="form-group">
-                  <textarea class="form-control" [formControlName]="'text'" placeholder="Your Thoughts?"></textarea>
+                  <textarea [ngStyle]="{'border-color': !commentForm.get('text')!.valid && commentForm.get('text')!.touched ? 'red' : 'grey'}" class="form-control" 
+                  [formControlName]="'text'" placeholder="Your Thoughts?" [(ngModel)]="some"></textarea>
+                  <span *ngIf="!commentForm.get('text')!.valid && commentForm.get('text')!.touched">
+                    The field is required and cannot be empty
+                  </span>
                 </div>
-                <button type="submit" class="login float-right">Comment</button>
+                <button class="btn-cancel-comment" (click)="discardComment()">Cancel</button>
+                <button type="submit" class="btn-add-comment float-right" [disabled]="!some" (click)="postComment()">Comment</button>
               </form>
             </div>
             <div style="margin-top: 60px;" *ngFor="let comment of comments">
               <div class="comment">
-                <div class="username">
+                <span>
                   <a routerLink="/user/comment.username">{{comment.username}}</a>
-                </div>
+                </span>
+                .
+                <span>
+                  {{comment.createDate | dateAgo}}
+                </span>
                 <div>
-                  <p>{{comment.duration}}</p>
+                  <br/>
+                  <span>{{comment.text}}</span>
                 </div>
-                <b>{{comment.text}}</b>
               </div>
               <hr />
             </div>

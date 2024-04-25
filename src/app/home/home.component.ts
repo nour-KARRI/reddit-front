@@ -14,12 +14,14 @@ posts: Array<PostModel> = [];
 
 upvoteColor:string
 downvoteColor:string
-  constructor(private postService: PostService){
-    this.postService.getAllPosts().subscribe(post=>{
-      this.posts = post;
-    });
-  }
-  ngOnInit(): void {
-  }
+
+constructor(private postService: PostService){
+  this.postService.getAllPosts().subscribe(post=>{
+    this.posts = post;
+  });
+}
+
+ngOnInit(): void {
+}
 
 }
